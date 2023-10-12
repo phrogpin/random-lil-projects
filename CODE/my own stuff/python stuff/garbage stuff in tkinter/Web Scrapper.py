@@ -12,6 +12,11 @@ def scrapper_input():
     processed_output = scrapper(user_input) # calls the scrapper def to process, scrape, and output the input 
     output_label.config(text = f"HTML code: {processed_output[0]} \n\n Text content: {processed_output[1]}") # display the processed output in the label widget
 
+    # scroll bar
+    scrollbar = tk.Scrollbar(root, command = output_label.yview)
+    scrollbar.pack(side = "right", fill = "y")
+    output_label.config(yscrollcommand = scrollbar.set)
+
 # the function to scrape and print out the given websites HTML code and text content.
 
 def scrapper(url):
@@ -50,11 +55,6 @@ if __name__ == "__main__":
     root.geometry("1000x1000")
     root.configure(background = "light pink")
     
-    # scroll bar
-    scrollbar = tk.Scrollbar(root, command = text_output.yview)
-    scrollbar.pack(side = "right", fill = "y")
-    text_output.config(yscrollcommand = scrollbar.set)
-    
     # create and place widgets in the window 
     label = tk.Label(root, text = "Enter the url of the website you want to devour: ")
     label.pack(pady = 10)
@@ -70,38 +70,3 @@ if __name__ == "__main__":
     
     #start the tkinter mainloop
     root.mainloop()
-    
-
-'''
-# the function to scrape and print out the given websites HTML code and text content.
-
-def scrapper(url):
-    
-    try: 
-        
-        # send an HTTP GET request to the provided URL
-        response = requests.get(url)
-        response.raise_for_status() # check for HTTP request errors
-        
-        # get the HTML code of the page
-        html = response.text
-        
-        # parse  the html using BeautifulSoup
-        soup = BeautifulSoup(html, 'html.parser')
-        
-        # print the html code 
-        print("-----html code-----")
-        print(html)
-        
-        # print the text content of the page 
-        print("---text content---")
-        text = soup.get_text()
-        print(text)
-        
-        
-    except requests.exceptions.RequestException as e: 
-        print(f"Error: {e}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        
-'''
