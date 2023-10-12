@@ -2,24 +2,10 @@ import requests
 import tkinter as tk
 from bs4 import BeautifulSoup 
 
-
-
-# the function to display the HTML code and text content of the given website.
-
-def scrapper_input():
-    user_input = entry.get() # get text from the entry widget 
-    output_label.config(text = f"You entered: {user_input}") # display the text in the label widget
-    processed_output = scrapper(user_input) # calls the scrapper def to process, scrape, and output the input 
-    output_label.config(text = f"HTML code: {processed_output[0]} \n\n Text content: {processed_output[1]}") # display the processed output in the label widget
-
-    # scroll bar
-    scrollbar = tk.Scrollbar(root, command = output_label.yview)
-    scrollbar.pack(side = "right", fill = "y")
-    output_label.config(yscrollcommand = scrollbar.set)
-
 # the function to scrape and print out the given websites HTML code and text content.
 
 def scrapper(url):
+    url = url_entry.get() # gets the url from the Entry widget
     
     try: 
         
@@ -33,18 +19,18 @@ def scrapper(url):
         # parse  the html using BeautifulSoup
         soup = BeautifulSoup(html, 'html.parser')
         
-        # get contents of the page 
-        text = soup.get_text()
-        
-        # print the html code and page contents
-        print("-----html code and page content-----")
-        return html, text # return the html code and text content of the page
-        
+        quotes  = [quote.text for quote in soup.find_all('p')] #replace p with the tags/attirbutes you want to find
+        for quote in quotes:
+            output_text.insert("end", quote + "\n") # display quotes in the text widget
+            
+        output_text.delete("1.0", "end") # clears the previous text in the output_text widget
         
     except requests.exceptions.RequestException as e: 
-        print(f"Error: {e}")
+        output_text.delete("1.0", "end")
+        output_text.insert("end", "Error: " + str(e))
     except Exception as e:
-        print(f"An error occurred: {e}")
+        output_text.delete("1.0", "end")
+        output_text.insert("end", "Error: " + str(e))
     
     
 if __name__ == "__main__":
@@ -56,17 +42,17 @@ if __name__ == "__main__":
     root.configure(background = "light pink")
     
     # create and place widgets in the window 
-    label = tk.Label(root, text = "Enter the url of the website you want to devour: ")
-    label.pack(pady = 10)
+    url = tk.Label(root, text = "Enter the url of the website you want to devour: ")
+    url.pack(pady = 10)
     
-    entry = tk.Entry(root)
-    entry.pack(pady = 10)
+    url_entry = tk.Entry(root)
+    url_entry.pack(pady = 10)
     
-    submit_button = tk.Button(root, text = "Enter", command = scrapper_input)
+    submit_button = tk.Button(root, text = "Enter", command = scrapper)
     submit_button.pack()
     
-    output_label = tk.Label(root, text = "")
-    output_label.pack(pady = 10)
+    output_text = tk.Text(root, wrap = "word", height = 10, width = 50)
+    output_text.pack()
     
     #start the tkinter mainloop
     root.mainloop()
