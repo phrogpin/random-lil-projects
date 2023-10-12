@@ -53,7 +53,7 @@ url = tk.Label(root, text = "Enter the url of the website you want to devour: ")
 url.pack(pady = 10)
     
 url_entry = tk.Entry(root)
-url_entry.pack(pady = 10)
+url_entry.pack(pady = 100)
     
 submit_button = tk.Button(root, text = "Enter", command = scrapper)
 submit_button.pack()
@@ -66,9 +66,9 @@ text_content_scrollbar = Scrollbar(root)
 text_content_scrollbar.pack(side = "right", fill = "y")
 
 # creates the text widgets
-html_text = tk.Text(root, wrap = "word", height = 20, width = 50, yscrollcommand = html_scrollbar.set)
+html_text = tk.Text(root, wrap = "word", height = 20, width = 200, yscrollcommand = html_scrollbar.set)
 html_text.pack()
-text_content_text = tk.Text(root, wrap = "word", height = 20, width = 50, yscrollcommand = text_content_scrollbar.set)
+text_content_text = tk.Text(root, wrap = "word", height = 20, width = 200, yscrollcommand = text_content_scrollbar.set)
 text_content_text.pack()
     
 #start the tkinter mainloop
