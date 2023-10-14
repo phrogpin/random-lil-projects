@@ -1,12 +1,11 @@
 import pygame
 import sys
 import main
-import random
 
-def settings_screen(screen, screen_width, screen_height):
+def settings_screen(screen, screen_width, screen_height, background_color):
     # initialize settings variables 
     fullscreen = False
-    background_color = main.green
+    # background_color = main.green
     running = True
     color_picker_active = False
     
@@ -59,11 +58,11 @@ def settings_screen(screen, screen_width, screen_height):
             if color_picker_active and event.type == pygame.MOUSEBUTTONDOWN:
                 for color_name, color, button in color_buttons:
                     if button.collidepoint(event.pos):
-                        background_color = color
-                        color_picker_active = False
+                        background_color[:] = color
+                        # color_picker_active = False
                         
         # clear the screen 
-        main.screen.fill(main.white)
+        main.screen.fill(main.background_color)
         
         # draw the settings screen
         pygame.draw.rect(main.screen, background_color, (0, 0, main.screen_width, main.screen_height))
@@ -71,6 +70,7 @@ def settings_screen(screen, screen_width, screen_height):
         fullscreen_text = main.font.render("toggle fullscreen (press 'F')", True, main.white)
         color_text = main.font.render("change color (press 'C')", True, main.white)
         back_text = main.font.render("back to menu (press 'esc')", True, main.white)
+        
         # draw the text
         main.screen.blit(settings_text, (10, 10))
         main.screen.blit(fullscreen_text, (10, 60))
