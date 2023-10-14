@@ -60,7 +60,7 @@ while running:
             pygame.draw.rect(main.screen, main.black, frame, 9)
         
         # draw the how to play screen here
-        how_to_play_screen(main.screen, main.screen_width, main.screen_height)
+        how_to_play_screen(main.screen, main.screen_width, main.screen_height, main.background_color)
         how_to_play_active = False # exits how to play screen and returns to main menu
     
     else:        

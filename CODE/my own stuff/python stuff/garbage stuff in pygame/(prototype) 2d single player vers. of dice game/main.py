@@ -33,9 +33,16 @@ pygame.display.set_caption("Gambling Dice Game")
 # button dimensions 
 button_width = 200 
 button_height = 50
+button_padding = 10
+button_font = pygame.font.SysFont(None, 24)
+button_color = (200, 200, 200)
+button_highlight_color = white
+button_text_color = black
+button_highlight_text_color = blue
 
 # fonts 
 font = pygame.font.Font(None, 36)
+text_color = white
 
 # create button rects 
 start_button = pygame.Rect(screen_width // 2 - button_width // 2, 200, button_width, button_height)
