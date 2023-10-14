@@ -12,14 +12,19 @@ pygame.init()
 # colors 
 black = (0, 0, 0)
 white = (255, 255, 255)
+brown = (165, 42, 42)
 red = (255, 0, 0)
 green = (0, 200, 0)
 blue = (0, 0, 255)
+pink = (255, 0, 255)
+purple = (128, 0, 128)
+orange = (255, 165, 0)
+yellow = (255, 255, 0)
 
 # screen settings 
 screen_width = 800
 screen_height = 700
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
 pygame.display.set_caption("Gambling Dice Game")
 
 # button dimensions 

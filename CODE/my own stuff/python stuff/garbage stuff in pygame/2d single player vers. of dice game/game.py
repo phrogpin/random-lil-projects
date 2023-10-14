@@ -12,25 +12,27 @@ game_active = False
 settings_active = False
 how_to_play_active = False
 
+# main loop
 while running:
+    # event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     
     
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if main.start_button.collidepoint(event.pos):
-            # start the game button 
-            print("start button pressed")
-            game_active = True
-        elif main.settings_button.collidepoint(event.pos):
-            # settings button clicked
-            print("settings button clicked")
-            settings_active = True
-        elif main.how_to_play_button.collidepoint(event.pos):
-            # how to play button clicked 
-            print("how to play button clicked")
-            how_to_play_active = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if main.start_button.collidepoint(event.pos):
+                # start the game button 
+                print("start button pressed")
+                game_active = True
+            elif main.settings_button.collidepoint(event.pos):
+                # settings button clicked
+                print("settings button clicked")
+                settings_active = True
+            elif main.how_to_play_button.collidepoint(event.pos):
+                # how to play button clicked 
+                print("how to play button clicked")
+                how_to_play_active = True
             
     # fill the screen with a color            
     main.screen.fill(main.black)        
@@ -42,6 +44,7 @@ while running:
     elif settings_active:
         # draw the settings screen here
         settings_screen(main.screen, main.screen_width, main.screen_height)
+        settings_active = False # exits settings screen and returns to main menu
         pass
     
     elif how_to_play_active:
@@ -66,10 +69,8 @@ while running:
         main.screen.blit(settings_text, (main.settings_button.centerx - settings_text.get_width() // 2, main.settings_button.centery - settings_text.get_height() // 2))
         main.screen.blit(how_to_play_text, (main.how_to_play_button.centerx - how_to_play_text.get_width() // 2, main.how_to_play_button.centery - how_to_play_text.get_height() // 2))
     
+    # update the display
     pygame.display.flip()
-    
-    # update the display 
-    # pygame.display.update()
 
     # limit the frame rate to 60 fps 
     main.clock.tick(60)
