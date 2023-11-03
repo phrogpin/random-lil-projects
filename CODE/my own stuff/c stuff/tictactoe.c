@@ -14,7 +14,7 @@ void displayBoard(char board[3][3]);
 // function to check if the game has ended with a tie or winner
 int checkWinner(char board[3][3], char player);
 int checkTie(char board[3][3]);
-void gameEnd(char board[3][3], int gameOver);
+int gameEnd(char board[3][3], int* gameOver);
 
 // function for the player's turn
 void playerTurn(char board[3][3]);
@@ -24,6 +24,7 @@ void computerTurn(char board[3][3]);
 
 // main function 
 int main(void) {
+    srand(time(NULL)); // seed the random number generator
     // how to play
     printf("Welcome to Tic Tac Toe!\n");
     printf("To play, enter the number of the square you want to place your piece in.\n");
@@ -54,12 +55,13 @@ int main(void) {
 
         // computer turn
         computerTurn(board);
-        
-        // check if game is over
-        gameEnd(board, gameOver);
 
         // display the board
         displayBoard(board);
+        
+        // check if game is over
+        gameOver = gameEnd(board, &gameOver);
+
 
     }
     return 0;
@@ -86,7 +88,7 @@ int checkWinner(char board[3][3], char player) {
         int a = winningCombinations[i][0];
         int b = winningCombinations[i][1];
         int c = winningCombinations[i][2];
-        if (board[a / 3][a % 3] == player && board[b / 3][a % 3] ==  player && board[c / 3][c % 3] == player) {
+        if (board[a / 3][a % 3] == player && board[b / 3][b % 3] ==  player && board[c / 3][c % 3] == player) {
             return 1; // player has won
         }
     }
@@ -105,90 +107,54 @@ int checkTie(char board[3][3]) {
     return 1; // the board is full
 }
 
-void gameEnd(char board[3][3], int gameOver) {
+int gameEnd(char board[3][3], int* gameOver) {
     int playerWin = checkWinner(board, 'X');
     int computerWin = checkWinner(board, 'O');
     int tie = checkTie(board);
     
     // if statements to check if the game is over
     if (playerWin) {
-        printf("You win!\n");
-        gameOver = 1;
+        printf("You win!\n\n");
+        *gameOver = 1;
     } else if (computerWin) {
-        printf("You lose!\n");
-        gameOver = 1;
+        printf("You lose!\n\n");
+        *gameOver = 1;
     } else if (tie) {
-        printf("It's a tie!\n");
-        gameOver = 1;
+        printf("It's a tie!\n\n");
+        *gameOver = 1;
     } else {
-        printf("The game isn't over!\n");
+        printf("The game isn't over!\n\n");
     }
-
+    return *gameOver; // return the updated value of gameOver
 };
 
 void playerTurn(char board[3][3]) {
     int move;
-    
-    // ask the player for their move
-    printf("\n\nEnter your move: ");
-    scanf("%d", &move);
-    
+    int validMove = 0; // add a flag to check if the move is valid
 
-    int row = move / 3;
-    int column = move % 3;
-    
-    // check if the move is valid
-    // if player requested spot is empty, place move on the board using switch statement
-    if (board[row][column] == ' ') {
-        switch (move) {
-            case 0:
-                board[0][0] = 'X';
-                break;
+    while (!validMove) { // use a loop to keep asking for input until a valid move is reached 
+    // display the board 
+    displayBoard(board);
+
+        // ask the player for their move
+        printf("\n\nEnter your move: ");
+        scanf("%d", &move);
         
-            case 1:
-                board[0][1] = 'X';
-                break;
+        int row = move / 3;
+        int column = move % 3;
         
-            case 2: 
-                board[0][2] = 'X';
-                break;
-
-            case 3:
-                board[1][0] = 'X';
-                break;
-            
-            case 4:
-                board[1][1] = 'X';
-                break; 
-            
-            case 5:
-                board[1][2] = 'X';
-                break;
-
-            case 6:
-                board[2][0] = 'X';
-                break;
-
-            case 7:
-                board[2][1] = 'X';
-                break;
-
-            case 8: 
-                board[2][2] = 'X';
-                break;
-
-            default:
-                printf("Invalid move. Try again.\n");
-                break;
+        if (move >= 0 && move < 9 && board[row][column] == ' ') {
+            // check if the move is within the valid range and if the space is empty 
+            validMove = 1; // set flag to indicate that the move is valid
+            board[row][column] = 'X';
+        } else {
+            printf("Invalid move. Please pick an empty space. (0 - 8).\n");
         }
-    } else {
-        printf("Invalid move. Try again.\n");
     }
 
 };
 
 void computerTurn(char board[3][3]) {
-    srand(time(NULL));
     int row, column;
 
     // generate a random number
