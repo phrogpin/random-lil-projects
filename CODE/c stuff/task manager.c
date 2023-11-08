@@ -1,4 +1,6 @@
-// task manager
+// task manager for myself to never use at all
+// dont know how half of this code works because i just threw in a bunch of random stuff i tried learning day one of c 
+// and also because i didnt fucking comment for shit lmao
 
 #include <stdio.h>
 #include <stdlib.h>
